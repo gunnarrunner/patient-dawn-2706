@@ -1,0 +1,6 @@
+<h1> All Competitions!! </h1>
+</br>
+
+<% @competitions.each do |competition| %>
+  <h2> Competition Name: <%= link_to competition.name, competition_path(competition.id) %> </h2>
+<% end %>
