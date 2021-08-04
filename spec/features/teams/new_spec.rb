@@ -1,6 +1,6 @@
 require 'rails_helper'
-RSpec.describe 'shows and describes a competitions show page' do
-  before :each do
+ RSpec.describe 'can show a form for creating a new team' do
+   before :each do
     @team1 = Team.create!(hometown: "Tampa Bay", nickname: "Da Bucs")
     @team2 = Team.create!(hometown: "Denver", nickname: "Nuggies")
     @team3 = Team.create!(hometown: "Dallas", nickname: "Americas Team")
@@ -24,36 +24,27 @@ RSpec.describe 'shows and describes a competitions show page' do
     @event5 = Event.create!(team_id: @team3.id, competition_id: @competition4.id)
     @event6 = Event.create!(team_id: @team2.id, competition_id: @competition1.id)
 
+   end
+   it 'can click on a link to be taken to a teams new page' do
+     visit "/competitions/#{@competition1.id}"
+
+     click_link("Register a New Team")
+
+     expect(current_path).to eq("/teams/new")
+   end
+
+   it 'can fill out the form and see the team on the competitions show page' do
     visit "/competitions/#{@competition1.id}"
-  end
-  it 'can show the attributes of the competitons on its show page' do
-    expect(page).to have_content(@competition1.name)
-    expect(page).to have_content(@competition1.location)
-    expect(page).to have_content(@competition1.sport)
 
-    expect(page).to_not have_content(@competition2.name)
-    expect(page).to_not have_content(@competition2.location)
-    expect(page).to_not have_content(@competition2.sport)
-  end
-
-  it 'can show all the teams in this competition with there attributes' do
+    click_link("Register a New Team")
     
-    within "#associated-teams-#{@team1.id}" do
-      expect(page).to have_content(@team1.hometown)
-      expect(page).to have_content(@team1.nickname)
-    end
+    fill_in("Nickname", with: "da Sox")
+    fill_in("Hometown", with: "Boston")
 
-    within "#associated-teams-#{@team2.id}" do
-      expect(page).to have_content(@team2.hometown)
-      expect(page).to have_content(@team2.nickname)
-    end
-    
+    click_button("Register Team!")
 
-    expect(page).to_not have_content(@team3.hometown)
-    expect(page).to_not have_content(@team3.nickname)
-  end
-
-  it 'can show the average age of all the players in this competition' do
-    expect(page).to have_content(@competition1.average_age_players)
-  end
-end
+    expect(current_path).to eq("/competitions/#{@competition1.id}")
+    team = Team.all
+    expect(page).to have_content(team.last.nickname)
+   end
+ end

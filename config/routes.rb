@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  resources :competitions, only: [:index, :show]
+  resources :competitions
+  resources :teams
 end

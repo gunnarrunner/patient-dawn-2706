@@ -1,0 +1,8 @@
+<%= form_with model: Team.new, local: true do |f| %>
+  <%= f.label :nickname %>
+  <p> <%= f.text_field :nickname %> </p>
+  <%= f.label :hometown %>
+  <p> <%= f.text_field :hometown %> </p>
+  <%= f.hidden_field :competition_id , value: @competition.id %>
+  <%= f.submit "Register Team!" %>
+<% end %>

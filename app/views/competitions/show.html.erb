@@ -1,5 +1,19 @@
 <h1> <%= @competition.name %>'s Show Page! </h1>
 
-<h3> Name of the competition: <%= @competition.name %> </h3>
-<h3> Location: <%= @competition.location %> </h3>
-<h3> Sport Played: <%= @competition.sport %> </h3>
+<h2> <%= link_to "Register a New Team", new_team_path(:competition_id => @competition.id)%> </h2>
+
+<h4> Name of the competition: <%= @competition.name %> </h4>
+<h4> Location: <%= @competition.location %> </h4>
+<h4> Sport Played: <%= @competition.sport %> </h4>
+
+
+<h2> Teams Registered in this competition! </h2>
+<% @competition.teams.each do |team|%>
+  <section id= "associated-teams-<%= team.id %>"> 
+  <p> Team's Nickname: <%= team.nickname %>, Hometown: <%= team.hometown %> </p>
+  </section>
+<% end %>
+</br>
+
+<h2> Average Age of all Players associated with this Competition: <%= @competition.average_age_players %> Years Old </h2>
+</br>
